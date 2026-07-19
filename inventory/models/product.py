@@ -1,7 +1,9 @@
 from django.db import models
 
+from config.base_model import BaseModel
 
-class Product(models.Model):
+
+class Product(BaseModel):
     category = models.ForeignKey("inventory.Category", models.CASCADE)
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -11,3 +13,6 @@ class Product(models.Model):
     sale_stock = models.IntegerField(default=0)
     # validator: sale_stock <= inventory_stock
     ingredients = models.ForeignKey("inventory.Ingredient", models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.name
