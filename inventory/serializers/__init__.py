@@ -1,0 +1,4 @@
+from inventory.serializers.category import CategorySerializer
+from inventory.serializers.ingredient import IngredientSerializer
+from inventory.serializers.picture import PictureSerializer
+from inventory.serializers.product import ProductSerializer
