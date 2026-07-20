@@ -21,13 +21,13 @@ urlpatterns = [
     ),
     path("ingredient/", IngredientListCreateAPIView.as_view(), name="ingredient"),
     path(
-        "ingredient/<int:pk>",
+        "ingredient/<int:pk>/",
         IngredientRetrieveUpdateDestroyAPIView.as_view(),
         name="ingredient-detail",
     ),
     path("product/", ProductListCreateAPIView.as_view(), name="product"),
     path(
-        "product/<int:pk>",
+        "product/<int:pk>/",
         ProductRetrieveUpdateDestroyAPIView.as_view(),
         name="product-detail",
     ),
@@ -37,7 +37,7 @@ urlpatterns = [
         name="product-picture",
     ),
     path(
-        "product-picture/<int:pk>",
+        "product-picture/<int:pk>/",
         PictureRetrieveUpdateDestroyAPIView.as_view(),
         name="product-picture-detail",
     ),
