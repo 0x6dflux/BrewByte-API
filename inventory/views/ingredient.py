@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 
+from config.mixin import DetailMixin
 from inventory.models import Ingredient
 from inventory.serializers import IngredientSerializer
 
@@ -24,38 +25,22 @@ class IngredientListCreateAPIView(APIView):
         return Response(s.errors, HTTP_400_BAD_REQUEST)
 
 
-class IngredientRetrieveUpdateDestroyAPIView(APIView):
+class IngredientRetrieveUpdateDestroyAPIView(DetailMixin, APIView):
+    model_name = Ingredient
+    serializer_name = IngredientSerializer
+
     def get(self, request: Request, pk: int) -> Response:
-        s = IngredientSerializer(Ingredient.objects.get(id=pk))
+        s = IngredientSerializer(self._get_object_or_404(pk))
 
         return Response(s.data)
 
     def put(self, request: Request, pk: int) -> Response:
-        s = IngredientSerializer(Ingredient.objects.get(id=pk), request.data)
-
-        if s.is_valid():
-            s.save()
-
-            return Response(s.data)
-
-        return Response(s.errors, HTTP_400_BAD_REQUEST)
+        return self._update_product(pk)
 
     def patch(self, request: Request, pk: int) -> Response:
-        s = IngredientSerializer(
-            Ingredient.objects.get(id=pk),
-            request.data,
-            partial=True,
-        )
-
-        if s.is_valid():
-            s.save()
-
-            return Response(s.data)
-
-        return Response(s.errors, HTTP_400_BAD_REQUEST)
+        return self._update_product(pk, partial=True)
 
     def delete(self, request: Request, pk: int) -> Response:
-        Ingredient.objects.get(id=pk).delete()
+        self._get_object_or_404(pk).delete()
 
         return Response()
-        # else HTTP_400_BAD_REQUEST
