@@ -16,7 +16,7 @@ class DetailMixin:
         except self.model_class.DoesNotExist:
             raise Http404(f"{self.model_class.__name__} Not Found, Invalid `pk={pk}`")
 
-    def _update_product(self, pk: int, *, partial: bool = False) -> Response:
+    def _update_object(self, pk: int, *, partial: bool = False) -> Response:
         s = self.serializer_class(
             self._get_object_or_404(pk),
             self.request.data,
