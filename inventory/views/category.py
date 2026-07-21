@@ -26,8 +26,8 @@ class CategoryListCreateAPIView(APIView):
 
 
 class CategoryRetrieveUpdateDestroyAPIView(DetailMixin, APIView):
-    model_name = Category
-    serializer_name = CategorySerializer
+    model_class = Category
+    serializer_class = CategorySerializer
 
     def get(self, request: Request, pk: int) -> Response:
         s = CategorySerializer(self._get_object_or_404(pk))

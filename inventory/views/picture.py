@@ -26,8 +26,8 @@ class PictureListCreateAPIView(APIView):
 
 
 class PictureRetrieveUpdateDestroyAPIView(DetailMixin, APIView):
-    model_name = Picture
-    serializer_name = PictureSerializer
+    model_class = Picture
+    serializer_class = PictureSerializer
 
     def get(self, request: Request, pk: int) -> Response:
         s = PictureSerializer(self._get_object_or_404(pk))

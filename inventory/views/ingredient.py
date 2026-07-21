@@ -26,8 +26,8 @@ class IngredientListCreateAPIView(APIView):
 
 
 class IngredientRetrieveUpdateDestroyAPIView(DetailMixin, APIView):
-    model_name = Ingredient
-    serializer_name = IngredientSerializer
+    model_class = Ingredient
+    serializer_class = IngredientSerializer
 
     def get(self, request: Request, pk: int) -> Response:
         s = IngredientSerializer(self._get_object_or_404(pk))

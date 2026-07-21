@@ -6,18 +6,18 @@ from rest_framework.status import HTTP_400_BAD_REQUEST
 
 
 class DetailMixin:
-    model_name: Callable
-    serializer_name: Callable
+    model_class: Callable
+    serializer_class: Callable
 
     # what is the return type hint? it returns an object of a class
     def _get_object_or_404(self, pk: int):
         try:
-            return self.model_name.objects.get(id=pk)
-        except self.model_name.DoesNotExist:
-            raise Http404(f"Product Not Found, Invalid `pk={pk}`")
+            return self.model_class.objects.get(id=pk)
+        except self.model_class.DoesNotExist:
+            raise Http404(f"{self.model_class.__name__} Not Found, Invalid `pk={pk}`")
 
     def _update_product(self, pk: int, *, partial: bool = False) -> Response:
-        s = self.serializer_name(
+        s = self.serializer_class(
             self._get_object_or_404(pk),
             self.request.data,
             partial=partial,

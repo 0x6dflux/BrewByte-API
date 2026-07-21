@@ -27,8 +27,8 @@ class ProductListCreateAPIView(APIView):
 
 
 class ProductRetrieveUpdateDestroyAPIView(DetailMixin, APIView):
-    model_name = Product
-    serializer_name = ProductSerializer
+    model_class = Product
+    serializer_class = ProductSerializer
 
     def get(self, request: Request, pk: int) -> Response:
         s = ProductSerializer(self._get_object_or_404(pk))
