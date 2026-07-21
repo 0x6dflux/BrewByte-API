@@ -1,6 +1,6 @@
 from inventory.views.category import (
-    CategoryListCreateAPIView,
-    CategoryRetrieveUpdateDestroyAPIView,
+    category_list_create,
+    category_retrieve_update_destroy,
 )
 from inventory.views.ingredient import (
     IngredientListCreateAPIView,
