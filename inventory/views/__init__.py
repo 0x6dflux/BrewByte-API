@@ -1,16 +1,4 @@
-from inventory.views.category import (
-    CategoryListCreateAPIView,
-    CategoryRetrieveUpdateDestroyAPIView,
-)
-from inventory.views.ingredient import (
-    IngredientListCreateAPIView,
-    IngredientRetrieveUpdateDestroyAPIView,
-)
-from inventory.views.picture import (
-    PictureListCreateAPIView,
-    PictureRetrieveUpdateDestroyAPIView,
-)
-from inventory.views.product import (
-    ProductListCreateAPIView,
-    ProductRetrieveUpdateDestroyAPIView,
-)
+from inventory.views.category import CategoryViewSet
+from inventory.views.ingredient import IngredientViewSet
+from inventory.views.picture import PictureViewSet
+from inventory.views.product import ProductViewSet
