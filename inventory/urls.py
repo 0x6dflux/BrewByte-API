@@ -1,44 +1,62 @@
+# type: ignore
+
 from django.urls import path
 
 from inventory.views import (
-    CategoryListCreateAPIView,
-    CategoryRetrieveUpdateDestroyAPIView,
-    IngredientListCreateAPIView,
-    IngredientRetrieveUpdateDestroyAPIView,
-    PictureListCreateAPIView,
-    PictureRetrieveUpdateDestroyAPIView,
-    ProductListCreateAPIView,
-    ProductRetrieveUpdateDestroyAPIView,
+    CategoryViewSet,
+    IngredientViewSet,
+    PictureViewSet,
+    ProductViewSet,
 )
+
+action_without_detail = {"get": "list", "post": "create"}
+action_with_detail = {
+    "get": "retrieve",
+    "put": "update",
+    "patch": "partial_update",
+    "delete": "destroy",
+}
 
 app_name = "inventory"
 urlpatterns = [
-    path("category/", CategoryListCreateAPIView.as_view(), name="category"),
+    path(
+        "category/",
+        CategoryViewSet.as_view(action_without_detail),
+        name="category",
+    ),
     path(
         "category/<int:pk>/",
-        CategoryRetrieveUpdateDestroyAPIView.as_view(),
+        CategoryViewSet.as_view(action_with_detail),
         name="category-detail",
     ),
-    path("ingredient/", IngredientListCreateAPIView.as_view(), name="ingredient"),
+    path(
+        "ingredient/",
+        IngredientViewSet.as_view(action_without_detail),
+        name="ingredient",
+    ),
     path(
         "ingredient/<int:pk>/",
-        IngredientRetrieveUpdateDestroyAPIView.as_view(),
+        IngredientViewSet.as_view(action_with_detail),
         name="ingredient-detail",
     ),
-    path("product/", ProductListCreateAPIView.as_view(), name="product"),
+    path(
+        "product/",
+        ProductViewSet.as_view(action_without_detail),
+        name="product",
+    ),
     path(
         "product/<int:pk>/",
-        ProductRetrieveUpdateDestroyAPIView.as_view(),
+        ProductViewSet.as_view(action_with_detail),
         name="product-detail",
     ),
     path(
         "product-picture/",
-        PictureListCreateAPIView.as_view(),
+        PictureViewSet.as_view(action_without_detail),
         name="product-picture",
     ),
     path(
         "product-picture/<int:pk>/",
-        PictureRetrieveUpdateDestroyAPIView.as_view(),
+        PictureViewSet.as_view(action_with_detail),
         name="product-picture-detail",
     ),
 ]

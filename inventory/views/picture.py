@@ -1,46 +1,30 @@
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
-from rest_framework.views import APIView
+from rest_framework.viewsets import ViewSet
 
-from config.mixin import DetailMixin
+from config.mixin import GeneralMixin
 from inventory.models import Picture
 from inventory.serializers import PictureSerializer
 
 
-class PictureListCreateAPIView(APIView):
-    def get(self, request: Request) -> Response:
-        s = PictureSerializer(Picture.objects.all(), many=True)
-
-        return Response(s.data)
-
-    def post(self, request: Request) -> Response:
-        s = PictureSerializer(data=request.data)
-
-        if s.is_valid():
-            s.save()
-
-            return Response(s.data, HTTP_201_CREATED)
-
-        return Response(s.errors, HTTP_400_BAD_REQUEST)
-
-
-class PictureRetrieveUpdateDestroyAPIView(DetailMixin, APIView):
-    model_class = Picture
+class PictureViewSet(GeneralMixin, ViewSet):
+    query_set = Picture.objects.all()
     serializer_class = PictureSerializer
 
-    def get(self, request: Request, pk: int) -> Response:
-        s = PictureSerializer(self._get_object_or_404(pk))
+    def list(self, request: Request) -> Response:
+        return self._list()
 
-        return Response(s.data)
+    def create(self, request: Request) -> Response:
+        return self._create()
 
-    def put(self, request: Request, pk: int) -> Response:
-        return self._update_product(pk)
+    def retrieve(self, request: Request, pk: int) -> Response:
+        return self._retrieve(pk)
 
-    def patch(self, request: Request, pk: int) -> Response:
-        return self._update_product(pk, partial=True)
+    def update(self, request: Request, pk: int) -> Response:
+        return self._update(pk)
 
-    def delete(self, request: Request, pk: int) -> Response:
-        self._get_object_or_404(pk).delete()
+    def partial_update(self, request: Request, pk: int) -> Response:
+        return self._update(pk, partial=True)
 
-        return Response()
+    def destroy(self, request: Request, pk: int) -> Response:
+        return self._destroy(pk)
