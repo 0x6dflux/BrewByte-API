@@ -1,30 +1,21 @@
-from rest_framework.request import Request
-from rest_framework.response import Response
-from rest_framework.viewsets import ViewSet
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+from rest_framework.generics import ListAPIView
 
-from config.mixin import GeneralMixin
 from inventory.models import Product
 from inventory.serializers import ProductSerializer
 
 
-class ProductViewSet(GeneralMixin, ViewSet):
-    query_set = Product.objects.all()
+class ProductViewSet(ListAPIView):
+    queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-    def list(self, request: Request) -> Response:
-        return self._list()
-
-    def create(self, request: Request) -> Response:
-        return self._create()
-
-    def retrieve(self, request: Request, pk: int) -> Response:
-        return self._retrieve(pk)
-
-    def update(self, request: Request, pk: int) -> Response:
-        return self._update(pk)
-
-    def partial_update(self, request: Request, pk: int) -> Response:
-        return self._update(pk, partial=True)
-
-    def destroy(self, request: Request, pk: int) -> Response:
-        return self._destroy(pk)
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+    filterset_fields = ["category", "ingredients"]
+    search_fields = ["name", "description", "category__name"]
+    ordering_fields = ["price"]
+    ordering = ["-price", "inventory_stock"]

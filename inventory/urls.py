@@ -1,17 +1,8 @@
-from rest_framework.routers import SimpleRouter
+from django.urls import path
 
-from inventory.views import (
-    CategoryViewSet,
-    IngredientViewSet,
-    PictureViewSet,
-    ProductViewSet,
-)
-
-router = SimpleRouter(use_regex_path=False)
-router.register("category", CategoryViewSet, "category")
-router.register("ingredient", IngredientViewSet, "ingredient")
-router.register("product-picture", PictureViewSet, "picture")
-router.register("product", ProductViewSet, "product")
+from inventory.views import ProductViewSet
 
 app_name = "inventory"
-urlpatterns = router.urls
+urlpatterns = [
+    path("product/", ProductViewSet.as_view()),
+]
