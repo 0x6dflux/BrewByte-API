@@ -1,6 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.generics import ListAPIView
+from rest_framework.pagination import LimitOffsetPagination
 
 from inventory.models import Product
 from inventory.serializers import ProductSerializer
@@ -19,3 +20,5 @@ class ProductViewSet(ListAPIView):
     search_fields = ["name", "description", "category__name"]
     ordering_fields = ["price"]
     ordering = ["-price", "inventory_stock"]
+
+    pagination_class = LimitOffsetPagination
